@@ -16,3 +16,4 @@ class CarvanaItem(scrapy.Item):
     miles = scrapy.Field()
     price = scrapy.Field()
     monthly_pmt = scrapy.Field()
+    shipping = scrapy.Field()
