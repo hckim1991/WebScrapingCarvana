@@ -16,7 +16,6 @@ class CarvanaSpider(Spider):
         #Generally 20 items per page but not always
         urls = ['https://www.carvana.com/cars/filters/?cvnaid=eyJmaW5hbmNlIjp7ImRvd25QYXltZW50IjoyNTAwLCJtb250aGx5UGF5bWVudCI6NTAwfX0='] \
         + [f'https://www.carvana.com/cars/filters/?cvnaid=eyJmaW5hbmNlIjp7Im1vbnRobHlQYXltZW50Ijo1MDAsImRvd25QYXltZW50IjoyNTAwfX0=&page={x}' for x in range(2, page_number+1)]
-        #why can't I use start_urls?
 
         for url in urls:
             yield Request(url = url, callback = self.parse_product_page)
@@ -98,5 +97,3 @@ class CarvanaSpider(Spider):
             item['monthly_pmt'] = monthly_pmt
             item['shipping'] = shipping
             yield item
-
-            #issue with Carvana data is some cars are "purchase pending", i.e., not available. All carmax cars are available.
