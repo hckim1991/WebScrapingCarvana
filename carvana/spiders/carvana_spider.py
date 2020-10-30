@@ -8,14 +8,13 @@ class CarvanaSpider(Spider):
     name = "carvana_spider"
     allowed_urls = ['https://www.carvana.com/']
     # start_urls based on average downpayment of $2,500 and monthly payment of less than $500/month
-    start_urls = ['https://www.carvana.com/cars/filters/?cvnaid=eyJmaW5hbmNlIjp7ImRvd25QYXltZW50IjoyNTAwLCJtb250aGx5UGF5bWVudCI6NTAwfX0=']
+    start_urls = ['https://www.carvana.com/cars/filters/?cvnaid=eyJwcmljZSI6eyJtaW4iOjIyMTQ1LCJtYXgiOjI5NTI3fX0=']
     # Could potentially expand this to multiple links that segregate by body type
 
     def parse(self, response):
         page_number = ceil(int(re.findall('\d+', response.xpath('//span[@data-qa="pagination-text"]/text()').extract()[3])[0]) / 20)
         #Generally 20 items per page but not always
-        urls = ['https://www.carvana.com/cars/filters/?cvnaid=eyJmaW5hbmNlIjp7ImRvd25QYXltZW50IjoyNTAwLCJtb250aGx5UGF5bWVudCI6NTAwfX0='] \
-        + [f'https://www.carvana.com/cars/filters/?cvnaid=eyJmaW5hbmNlIjp7Im1vbnRobHlQYXltZW50Ijo1MDAsImRvd25QYXltZW50IjoyNTAwfX0=&page={x}' for x in range(2, page_number+1)]
+        urls = [f'https://www.carvana.com/cars/filters/?cvnaid=eyJwcmljZSI6eyJtaW4iOjIyMTQ1LCJtYXgiOjI5NTI3fX0=&page={x}' for x in range(1, page_number)]
 
         for url in urls:
             yield Request(url = url, callback = self.parse_product_page)
